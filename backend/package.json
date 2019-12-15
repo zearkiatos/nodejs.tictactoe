@@ -1,7 +1,7 @@
 {
-  "name": "nodejsbasico",
+  "name": "nodejs.tictactoe.backend",
   "version": "1.0.0",
-  "description": "Repositorio para el curso básico de Node.js de Platzi.",
+  "description": "TicTacToe Backend",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,20 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/platzi/nodejsbasico.git"
+    "url": "git+https://github.com/zearkiatos/nodejs.tictactoe.git"
   },
-  "keywords": [
-    "nodejs",
-    "basico"
-  ],
-  "author": "Platzi",
+  "author": "Pedro Capriles",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/platzi/nodejsbasico/issues"
+    "url": "https://github.com/zearkiatos/nodejs.tictactoe/issues"
   },
-  "homepage": "https://github.com/platzi/nodejsbasico#readme",
+  "homepage": "https://github.com/zearkiatos/nodejs.tictactoe#readme",
   "dependencies": {
-    "nodemon": "^1.18.4",
-    "socket.io": "^2.1.1"
+    "nodemon": "^2.0.2",
+    "socket.io": "^2.3.0"
   }
 }
