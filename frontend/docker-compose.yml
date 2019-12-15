@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: "../"
+      dockerfile: "./backend/Dockerfile"
+    container_name: nodejs-backend
+    volumes: 
+      - "./backend/.:/usr/src/app"
+    ports:
+      - "3001:3001"
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nodejs-frontend
+    volumes: 
+      - ".:/usr/src/app"
+    ports:
+      - "3000:3000"
