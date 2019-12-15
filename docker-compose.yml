@@ -3,19 +3,20 @@ version: "3"
 services:
   backend:
     build:
-      context: "../"
-      dockerfile: "./backend/Dockerfile"
+      context: "./backend"
+      dockerfile: Dockerfile
     container_name: nodejs-backend
     volumes: 
-      - "./backend/.:/usr/src/app"
+      - "./backend:/usr/app"
     ports:
       - "3001:3001"
   frontend:
     build:
-      context: .
+      context: "./frontend"
       dockerfile: Dockerfile
     container_name: nodejs-frontend
     volumes: 
-      - ".:/usr/src/app"
+      - "./frontend:/usr/app"
     ports:
       - "3000:3000"
+    command: "tail -f /dev/null"

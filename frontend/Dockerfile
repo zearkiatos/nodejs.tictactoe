@@ -1,12 +1,10 @@
-FROM node:12.13.0
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-USER root
+FROM node:latest
+WORKDIR /usr/app
 RUN apt-get update && \
 apt-get upgrade -y
-
-COPY [".","/usr/src/app"]
-
+COPY package.json ./
 RUN npm install
+COPY . ./
+RUN npm run start
 
 EXPOSE 3000

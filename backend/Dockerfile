@@ -1,15 +1,11 @@
-FROM node:12.13.0
-RUN mkdir /usr/src/app
-USER root
-WORKDIR /usr/src/app
+FROM node:latest
+WORKDIR /usr/app
 RUN apt-get update && \
 apt-get upgrade -y
-
-COPY [".","/usr/src/app"]
-
-RUN npm install && \
-node .
-
+COPY package.json ./
+RUN npm install
+COPY . ./
+RUN npm run start-backend
 EXPOSE 3001
 
 CMD ["npx","nodemon","."]
