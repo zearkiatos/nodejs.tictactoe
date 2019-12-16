@@ -1,3 +1,5 @@
+const game = require("./gameState");
+
 module.exports = () => {
   let players = {},
     onWait = [],
@@ -14,19 +16,40 @@ module.exports = () => {
     );
     while (onWait.length >= 2) {
       console.log("Constructing room... 🏗");
-      const p1 = players[onWait.pop()].user.name;
-      const p2 = players[onWait.pop()].user.name;
-      console.log(`We created a match for ${p1} and ${p2}`);
+      const p1 = players[onWait.pop()].user;
+      const p2 = players[onWait.pop()].user;
+      console.log(`We created a match for ${p1.name} and ${p2.name}`);
+      createMatch(p1.id,p2.id);
     }
   }
 
   function createMatch(p1ID, p2ID) {
-      const roomID = p1ID +'|'+ p2ID;
-      players[p1ID].roomID = roomID;
-      players[p2ID].roomID = roomID;
-      if (!onMatch) onMatch[roomID] = {}
-      players[p1ID].socket.emit("gameState",{});
-      players[p2ID].socket.emit("gameState",{});
+    const roomId = p1ID + "|" + p2ID;
+    players[p1ID].roomId = roomId;
+    players[p2ID].roomId = roomId;
+    if (!onMatch)
+      onMatch[roomId] = game.newGame({
+        players: [players[p1ID], players[p2ID]],
+        roomId: roomId,
+      });
+    players[p1ID].socket.emit(
+      "gameState",
+      game.newGame({
+        players: [players[p1ID], players[p2ID]],
+        roomId: roomId,
+        playerId: 0,
+        opponentId: 1
+      })
+    );
+    players[p2ID].socket.emit(
+      "gameState",
+      game.newGame({
+        players: [players[p1ID], players[p2ID]],
+        roomId: roomId,
+        playerId: 1,
+        opponentId: 0
+      })
+    );
   }
   return {
     userConnect: ({ socket, user }) => {
@@ -38,10 +61,10 @@ module.exports = () => {
     clear: () => clearInterval(loop),
     userDisconnect: id => {
       console.log("On disconnect", id);
-      if (players[id].roomID && onMatch[players[id].roomID]) {
-        const roomID = players[id].roomID;
-        onMatch[roomID].players.map(player => onWait.push(player.id));
-        delete onMatch[players[id].roomID];
+      if (players[id].roomId && onMatch[players[id].roomId]) {
+        const roomId = players[id].roomId;
+        onMatch[roomId].players.map(player => onWait.push(player.id));
+        delete onMatch[players[id].roomId];
         if (!onMatch) onMatch = {};
       }
 
